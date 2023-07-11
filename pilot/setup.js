@@ -7,6 +7,7 @@ function beginExperiment(stimStruct) {
     block2_stims =[];
     block3_stims =[];
     block4_stims =[];
+    all_stims = [];
     for (var i = 0; i < stimCats.length; i++) {
         dim1 = Object.keys(stimStruct[stimCats[i]]);
         dim1_keys = Object.keys(stimStruct[stimCats[i]][dim1]);
@@ -21,13 +22,18 @@ function beginExperiment(stimStruct) {
                     console.log(stimStruct[stimCats[i]][dim1][dim1_keys[j]][dim2][dim2_keys[k]][dim3][dim3_keys[l]])
                     var shuffled_instances = jsPsych.randomization.sampleWithoutReplacement(["1","2","3","4"]);
                     block1_stims.push({stim:`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[0]}.jpg`})
+                    all_stims.push(`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[0]}.jpg`);
                     block1_stims = jsPsych.randomization.sampleWithoutReplacement(block1_stims);
                     block2_stims.push({stim:`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[1]}.jpg`})
+                    all_stims.push(`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[1]}.jpg`);
                     block2_stims = jsPsych.randomization.sampleWithoutReplacement(block2_stims);
                     block3_stims.push({stim:`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[2]}.jpg`})
+                    all_stims.push(`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[2]}.jpg`);
                     block3_stims = jsPsych.randomization.sampleWithoutReplacement(block3_stims);
                     block4_stims.push({stim:`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[3]}.jpg`})
+                    all_stims.push(`img/${stimCats[i]}/${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${shuffled_instances[3]}.jpg`);
                     block4_stims = jsPsych.randomization.sampleWithoutReplacement(block4_stims);
+                    
 
 
                 }
@@ -54,6 +60,10 @@ block2_stims.forEach((obj, index) => {
 
 
     var timeline = [];
+    var preload = {
+        type: jsPsychPreload,
+        auto_preload: true
+    };
     var fixation = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '<div style="font-size:60px;">+</div>',
@@ -121,7 +131,7 @@ block2_stims.forEach((obj, index) => {
         // post_trial_gap: 5000
       };
    
-
+    timeline.push(preload);
     timeline.push(welcome);
     timeline.push(instructions);
     timeline.push(block1);
