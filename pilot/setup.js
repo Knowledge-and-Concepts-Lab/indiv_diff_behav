@@ -62,7 +62,8 @@ block2_stims.forEach((obj, index) => {
     var timeline = [];
     var preload = {
         type: jsPsychPreload,
-        auto_preload: true
+        // auto_preload: true
+        images: all_stims
     };
     var fixation = {
         type: jsPsychHtmlKeyboardResponse,
