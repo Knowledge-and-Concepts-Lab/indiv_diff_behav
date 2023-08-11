@@ -359,7 +359,7 @@ var mousteTest = {
 //     }
 // timeline.push(tmp);
 // }
-// timeline.push(preload);
+timeline.push(preload);
 // timeline.push(welcome);
 // timeline.push(instructions);
 // timeline.push(block1);
