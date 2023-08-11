@@ -346,19 +346,19 @@ var mousteTest = {
 //     // post_trial_gap: 5000
 //   };
 
-timeline.push(fixation);
-timeline.push(mousteTest);
-for (var i = 0; i < splitArray[0]['array'].length; i++) {
-    var tmp = {
+// timeline.push(fixation);
+// timeline.push(mousteTest);
+// for (var i = 0; i < splitArray[0]['array'].length; i++) {
+//     var tmp = {
       
-        type: jsPsychHtmlMouseResponse,
-        // stimulus: function(){return `<div style="font-size:60px;">${splitArray[0]['array'][i]}</div>`},
-        stimulus: splitArray[0]['array'][i]['stimulus'],
-        trial_duration:500
+//         type: jsPsychHtmlMouseResponse,
+//         // stimulus: function(){return `<div style="font-size:60px;">${splitArray[0]['array'][i]}</div>`},
+//         stimulus: splitArray[0]['array'][i]['stimulus'],
+//         trial_duration:500
 
-    }
-timeline.push(tmp);
-}
+//     }
+// timeline.push(tmp);
+// }
 // timeline.push(preload);
 // timeline.push(welcome);
 // timeline.push(instructions);
