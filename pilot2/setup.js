@@ -193,7 +193,7 @@ var fixation = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;">+</div>',
     choices: "NO_KEYS",
-    trial_duration: 500,
+    trial_duration: 2000,
   };
 var blank ={
     type: jsPsychHtmlKeyboardResponse,
@@ -231,7 +231,7 @@ var goodbye = {
 var stimDisplay = {
 type: jsPsychImageKeyboardResponse,
 stimulus: jsPsych.timelineVariable('stim'),
-stimulus_height: 500,
+stimulus_height: 6000,
 choices: ['NO_KEYS'],
 trial_duration:1000,
 post_trial_gap: 0,
@@ -285,7 +285,7 @@ for(var i=0; i<num_reps; i++){
             stimulus: runDict[background_order[j]][trial].stim,
             stimulus_height: 500,
             choices: ['NO_KEYS'],
-            trial_duration:1000,
+            trial_duration:6000,
             post_trial_gap: 0,
             }
         timeline.push(thisStim);
@@ -294,7 +294,7 @@ for(var i=0; i<num_reps; i++){
             var thisNback = {
            
                type: jsPsychHtmlMouseResponse,
-               trial_duration: 500,
+               trial_duration: 2000,
             //    stimulus: function(){return `<div style="font-size:60px;">${thisTrialNum}</div>`},
             stimulus: `<div style="font-size:60px;">${thisTrialNum}</div>`,
             }
