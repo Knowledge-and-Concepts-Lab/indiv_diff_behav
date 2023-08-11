@@ -182,11 +182,13 @@ runDict[3] = block4_stims;
 
 
 var timeline = [];
+
 var preload = {
     type: jsPsychPreload,
     // auto_preload: true
     images: all_stims
 };
+timeline.push(preload);
 var fixation = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;">+</div>',
@@ -359,7 +361,7 @@ var mousteTest = {
 //     }
 // timeline.push(tmp);
 // }
-timeline.push(preload);
+
 // timeline.push(welcome);
 // timeline.push(instructions);
 // timeline.push(block1);
