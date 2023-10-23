@@ -68,15 +68,46 @@ var jsPsychHtmlMouseResponse = (function (jspsych) {
             // draw
             display_element.innerHTML = new_html;
             // store response
-            //   var response = {
-            //       rt: null,
-            //       key: null,
-            //   };
-            var response =[];
+            var clickResponse;
+
+            var click_listener= function(e) {
+                if (e.button === 0) {
+        
+                  clickResponse = 'greater';
+                  if (response.key == null) {  
+                    response.key = clickResponse;
+                }
+                  console.log('clicklistener', clickResponse)
+                } 
+                else if (e.button === 2) {
+       
+                  clickResponse = 'lesser';
+                  if (response.key == null) {  
+                    response.key = clickResponse;
+                }
+                console.log('clicklistener', clickResponse)
+            }
+            document.removeEventListener('contextmenu', click_listener);
+            document.removeEventListener('click', click_listener);
+           
+               
+               
+              };
+        
+
+
+              var response = {
+                  key: null,
+              };
+            // var response =[];
+
             // function to end trial when it is time
             const end_trial = () => {
                 // kill any remaining setTimeout handlers
                 this.jsPsych.pluginAPI.clearAllTimeouts();
+                document.removeEventListener('click', click_listener);
+                document.removeEventListener('contexmenu', click_listener);
+
                 // kill keyboard listeners
                 //   if (typeof keyboardListener !== "undefined") {
                 //       this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
@@ -93,19 +124,19 @@ var jsPsychHtmlMouseResponse = (function (jspsych) {
                 this.jsPsych.finishTrial(trial_data);
             };
             // function to handle responses by the subject
-            var after_response = (info) => {
-                // after a valid response, the stimulus will have the CSS class 'responded'
-                // which can be used to provide visual feedback that a response was recorded
-                display_element.querySelector("#jspsych-html-keyboard-response-stimulus").className +=
-                " responded";
-                // only record the first response
-                if (response.key == null) {
-                    response = info;
-                }
-                if (trial.response_ends_trial) {
-                    end_trial();
-                }
-            };
+            // var after_response = (info) => {
+            //     // after a valid response, the stimulus will have the CSS class 'responded'
+            //     // which can be used to provide visual feedback that a response was recorded
+            //     display_element.querySelector("#jspsych-html-keyboard-response-stimulus").className +=
+            //     " responded";
+            //     // only record the first response
+            //     if (response.key == null) {
+            //         response.key = info;
+            //     }
+            //     if (trial.response_ends_trial) {
+            //         end_trial();
+            //     }
+            // };
             // start the response listener
             //   if (trial.choices != "NO_KEYS") {
             //       var keyboardListener = this.jsPsych.pluginAPI.getKeyboardResponse({
@@ -131,32 +162,44 @@ var jsPsychHtmlMouseResponse = (function (jspsych) {
       
                 // Define a function to handle the click event
                 function handleClick(event) {
+                  if (response.key == null) {  
                   if (event.type=='click'){
-                    response.push('greater');
+                    // response.push('greater');
+                    var this_response = 'greater'
+                    response.key = this_response;
+                   
                     console.log(response);
                   }
                   else if (event.type=='contextmenu'){
-                    response.push('lesser');
+                    // response.push('lesser');
+                    var this_response = 'lesser'
+                    response.key = this_response
                     console.log(response);
                   }
                   // Remove the click event listener from the element
-                  document.removeEventListener('click', handleClick);
-                  document.removeEventListener('contextmenu', handleClick);
+                    // document.removeEventListener('click', handleClick);
+                    // document.removeEventListener('contextmenu', handleClick);
+
                 //   end_trial();
                 }
+            }
               
             window.oncontextmenu = function (event) {
+                
                 event.preventDefault();
                 return false; // Prevents right-click menu from appearing
             }
             
             
-            document.
-            addEventListener('click', handleClick);
+            // document.
+            // addEventListener('click', handleClick);
             
-            document.
-            addEventListener('contextmenu', handleClick);
+            // document.
+            // addEventListener('contextmenu', handleClick);
                 
+
+            document.addEventListener('click', click_listener);
+            document.addEventListener('contextmenu', click_listener);
                 
                 
                 

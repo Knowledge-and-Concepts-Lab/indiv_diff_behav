@@ -20,7 +20,9 @@
 
 
 function beginExperiment(stimStruct) {
-    var jsPsych = initJsPsych();
+    var jsPsych = initJsPsych( {on_finish: function() {
+        jsPsych.data.displayData();
+      }});
     var stimStruct = stimStruct;
 
     
@@ -56,22 +58,14 @@ function sampleWithoutSequentialRepeats(array, size) {
 }
 
 
+
+
+const subject_id = jsPsych.randomization.randomID(10);
+const filename = `${subject_id}.csv`;
+
+
     stimCats = Object.keys(stimStruct);
     runDict = {};
-
-
-
-
-tmp ={}
-tmp[0]= ['a','a']
-tmp[1]= ['b','b']
-tmp[2]=  ['c','c']
-tmp[3]= ['d','d']
-tmp[4]= ['e','e']
-tmp[5]= ['f','f']    
-tmp[6]= ['g','g']
-tmp[7]= ['h','h']
-tmp[8]= ['i','i']
 
 
 
@@ -81,17 +75,6 @@ background_dict = {
     2: 'rural_day',
     3: 'rural_eve'
 }
-
-
-
-
-// let index = 0;
-
-// for (let i = 0; i <= Object.keys(tmp).length; i++) {
-//   tmp[i] = shuffledItems[index];
-//   index++;
-// }
-
 
 
 
@@ -113,18 +96,18 @@ all_stims = [];
 
 nback_stims={
 // these are the nback 'conditions'
-      'odd':{   1:[13, 15, 17],
-                2:[19, 21,23],
-                3:[25,27,29],
-                4:[31,33,35],
-                5:[37,39,41],
-                6:[43,45,47],
-                7:[49,51,53],
-                8:[55,57,59],
-                9:[61,63,65],
-                10:[67,69,71],
-                11:[73,75,77],
-                12:[79,81,83]
+      'odd':{ 1:[13, 15, 17],
+            2:[19, 21,23],
+            3:[25,27,29],
+            4:[31,33,35],
+            5:[37,39,41],
+            6:[43,45,47],
+            7:[49,51,53],
+            8:[55,57,59],
+            9:[61,63,65],
+            10:[67,69,71],
+            11:[73,75,77],
+            12:[79,81,83]
         },
     'even':{1:[12, 14, 16],
             2:[18, 20, 22],
@@ -141,18 +124,6 @@ nback_stims={
     }
 }
 
-    // 'odd':{1:[15, 17, 19, 21, 23],
-    //        2:[25, 27, 29, 31, 33],
-    //        3:[35, 37, 39, 41, 43],
-    //        4:[45, 47, 49, 51, 53],
-    //        5:[55, 57, 59, 61, 63],
-    //        6:[65, 67, 69, 71, 73]},
-    // 'even':{1:[16, 18, 20, 22, 24],
-    //         2:[26, 28, 30, 32, 34],
-    //         3:[36, 38, 40, 42, 44],
-    //         4:[46, 48, 50, 52, 54],
-    //         5:[56, 58, 60, 62, 64],
-    //         6:[66, 68, 70, 72, 74]}
 
 
     //          Nback Design        //
@@ -161,26 +132,26 @@ nback_factors = {
     'magnitude': [1,2,3,4,5,6,7,8,9,10,11,12]
 }
 
-nback_full_design = jsPsych.randomization.factorial(nback_factors, 1);
-nback_seqs = 
-nback_full_design.map(function(item) {
-    return sampleWithoutSequentialRepeats(nback_stims[item['parity']][item['magnitude']],6);
-  });
+// nback_full_design = jsPsych.randomization.factorial(nback_factors, 1);
+// nback_seqs = 
+// nback_full_design.map(function(item) {
+//     return sampleWithoutSequentialRepeats(nback_stims[item['parity']][item['magnitude']],6);
+//   });
 // console.log(nback_full_design)
 
-nback_trials=[] // these are all then back trials for a single run
-for(i=0; i<nback_seqs.length; i++){
-    for(j=0; j<nback_seqs[i].length; j++){
-        nback_trials.push({'stimulus':`<div style="font-size:60px;">${nback_seqs[i][j]}</div>`});
-    }
-}
+// nback_trials=[] // these are all then back trials for a single run
+// for(i=0; i<nback_seqs.length; i++){
+//     for(j=0; j<nback_seqs[i].length; j++){
+//         nback_trials.push({'stimulus':`<div style="font-size:60px;">${nback_seqs[i][j]}</div>`});
+//     }
+// }
 
-splitArray = _.chunk(nback_trials, 6);
+// splitArray = _.chunk(nback_trials, 6);
 
-// make each item in splitArray a timeline variable
-for (var i = 0; i < splitArray.length; i++) {
-    splitArray[i] = {'array': splitArray[i]}
-}
+// // make each item in splitArray a timeline variable
+// for (var i = 0; i < splitArray.length; i++) {
+//     splitArray[i] = {'array': splitArray[i]}
+// }
 
 
 
@@ -245,7 +216,6 @@ run12_stims = jsPsych.randomization.sampleWithoutReplacement(run4_stims); // shu
 
 testArrays ={} // this will be a dictionary of arrays of test images for each background
 
-
 for(var i=0; i<Object.keys(background_dict).length; i++){
     for (var j = 0; j < stimCats.length; j++) {
         thisArray = [];
@@ -270,7 +240,8 @@ for(var i=0; i<Object.keys(background_dict).length; i++){
         testArrays[3*i+j] = jsPsych.randomization.sampleWithoutReplacement(thisArray,8);
     }
 }
-testArrays = shuffleRuns(testArrays,3);
+
+testArrays = shuffleRuns(testArrays,3); // shuffle within backgrounds 
 
 testStims =[]
 for(i=0;i<3;i+=1){
@@ -311,13 +282,17 @@ var preload = {
     // auto_preload: true
     images: all_stims
 };
-timeline.push(preload);
+
+
+
 var fixation = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;">+</div>',
     choices: "NO_KEYS",
-    trial_duration: 20,
+    trial_duration: 2000,
   };
+
+
 var blank ={
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;"></div>',
@@ -325,19 +300,19 @@ var blank ={
     trial_duration: 50,
 }
 
-var scanner_trigger = {
+var scanner_trigger = { //trial for the scanner to begin the run
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;">Please wait for next TR to begin! :) </div>',
     choices: ['5']
   };
 
-  var numeric = {
-    type: jsPsychHtmlMouseResponse,
-    // stimulus: function(){return `<div style="font-size:60px;">${jsPsych.timelineVariable('num')}</div>`},
 
-    // choices: "NO_KEYS",
-    trial_duration: 2000,
-    timeline: ()=>{ return jsPsych.timelineVariable('array')},
+var save_data = {
+    type: jsPsychPipe,
+    action: "save",
+    experiment_id: "QScnbIYfrV2g",
+    filename: filename,
+    data_string: ()=>jsPsych.data.get().csv()
   };
 
 var welcome = {
@@ -393,8 +368,13 @@ var goodbye = {
 // for (var i = 0; i < Object.keys(runDict).length; i++) {
 // testOrderings.push(jsPsych.randomization.shuffle([0, 1, 2, 3]));
 // }
-num_reps = 1;
 
+
+timeline.push(preload);
+timeline.push(welcome);
+
+num_reps = 1;
+var seqCounter = 0;
 for(var i=0; i<num_reps; i++){
 
     //decide what order the backgrounds will be in
@@ -406,6 +386,7 @@ for(var i=0; i<num_reps; i++){
         // }
 
         //check
+        nback_full_design = jsPsych.randomization.factorial(nback_factors, 1);
 
         nback_seqs = 
         nback_full_design.map(function(item) {
@@ -420,18 +401,37 @@ for(var i=0; i<num_reps; i++){
             stimulus: runDict[j][trial].stim,
             stimulus_height: 500,
             choices: ['NO_KEYS'],
-            trial_duration:600,
+            trial_duration: 6000,
             post_trial_gap: 0,
+            data: {
+                imageTrial: true,
+                sequence: seqCounter,
+              }
             }
         timeline.push(thisStim);
+        timeline.push(fixation);
         for(var nbackCount=0;nbackCount<6;nbackCount++){
             var thisTrialNum = nback_seqs[trial][nbackCount] //future will need to pick the right seq out of 12
+            if (nbackCount==0){
+                var firstTrial = true;
+
+            }else{
+                var firstTrial = false;
+            }
             var thisNback = {
            
                type: jsPsychHtmlMouseResponse,
-               trial_duration: 10,
+               trial_duration: 950,
             //    stimulus: function(){return `<div style="font-size:60px;">${thisTrialNum}</div>`},
             stimulus: `<div style="font-size:60px;">${thisTrialNum}</div>`,
+            data: {
+                nbackTrial: true,
+                firstTrial: firstTrial,
+                sequence: seqCounter,
+                parity:nback_full_design[trial]['parity'],
+                magnitude:nback_full_design[trial]['magnitude'],
+            
+              }
             }
 
             timeline.push(thisNback);
@@ -440,12 +440,28 @@ for(var i=0; i<num_reps; i++){
 
        
         }
+        seqCounter+=1;
     }
+    var testProperties = testStims[j].map((item) => {
+        const parts = item.split('/');
+        const filename = parts[1].split('.')[0];
+        // const nameParts = filename.split('_');
+        // return nameParts.slice(2).join('_');
+        return filename;
+      });
+      
+
+      
+      
     var gridTest = {
         type: jsPsychGridSelect,
         // imageList: testArrays[3*background_order[j%4]+testOrderings[j][i]],
         imageList: testStims[j],
-     propertyList: ['a','b','c','d','e','f','g','h']
+    //  propertyList: ['a','b','c','d','e','f','g','h']
+        propertyList: testProperties,
+        data: {
+            gridTrial: true
+          }
     }
     
     timeline.push(gridTest);
@@ -459,16 +475,17 @@ for(var i=0; i<num_reps; i++){
 
 
 
-var mousteTest = {
-    type:jsPsychHtmlMouseResponse,
-    stimulus:'tmp',
-    trial_duration: 2000,
-}
+// var mousteTest = {
+//     type:jsPsychHtmlMouseResponse,
+//     stimulus:'tmp',
+//     trial_duration: 2000,
+// }
 
-// timeline.push(welcome);
+
 // timeline.push(instructions);
 // timeline.push(block1);
 // // timeline.push(testBlock1);
+timeline.push(save_data);
 // timeline.push(goodbye);
 
 jsPsych.run(timeline);

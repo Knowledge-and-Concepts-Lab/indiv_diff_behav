@@ -129,7 +129,7 @@ var jsPsychGridSelect = (function (jspsych) {
       image.addEventListener("mouseout", function(event) {
         event.target.style.opacity = "1";
       }
-      );
+      )
 
     });
 
