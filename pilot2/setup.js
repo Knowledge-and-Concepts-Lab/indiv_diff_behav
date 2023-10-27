@@ -303,7 +303,7 @@ var blank ={
 var scanner_trigger = { //trial for the scanner to begin the run
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<div style="font-size:60px;">Please wait for next TR to begin! :) </div>',
-    choices: ['5']
+    choices: ['t']
   };
 
 
