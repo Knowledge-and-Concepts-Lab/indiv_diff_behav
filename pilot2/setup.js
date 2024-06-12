@@ -322,7 +322,13 @@ var welcome = {
 
   var instructions = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "<div style = 'width:800px; font-size:24px;'><p>In this experiment you will be shown a series of images one at a time. After seeing several images, you will be asked to indicate which image from a set of 3 is most similar to the images you were shown.</p>\
+    stimulus: "<div style = 'width:800px; font-size:24px; text-align:left;'><p>This experiment is divided into 12 `blocks`. Between each block, the scanner will reset and you will have the chance to take a break if you want.\
+    The following instructions will go over the structure of a single block.<br><br> In each block, you will be shown a series of\
+    images one at a time. These images will remain on the screen for a few seconds then disappear. Please pay attention to the images as they appear.</p>\
+    <p> Between successive images you will be presented with a sequence of 6 numbers. Your task is to indicate whether the number you are currently seeing\
+    is <i>greater</i> or <i>lesser</i> than the previous number in the sequence. For, example if the sequence of numbers is 5,1,3,4,6,0, you would respond <i>lesser</i>, <i>greater</i>, <i>greater</i>, <i>greater</i>, <i>lesser</i>.</p>\
+    <p>On the trackball press the <b>left</b> button to indicate greater and the <b>right</b> button to indicate lesser.</p><br>\
+    After seeing several images, you will be presented with a grid of images and asked to indicate which 2 images from the set are most similar to the images you were shown during the block. Please make sure to select exactly 2!</p>\
     Good luck! Press any key to begin."
 
   };
@@ -372,6 +378,7 @@ var goodbye = {
 
 timeline.push(preload);
 timeline.push(welcome);
+timeline.push(instructions);
 
 num_reps = 1;
 var seqCounter = 0;
@@ -482,7 +489,7 @@ for(var i=0; i<num_reps; i++){
 // }
 
 
-// timeline.push(instructions);
+
 // timeline.push(block1);
 // // timeline.push(testBlock1);
 timeline.push(save_data);
