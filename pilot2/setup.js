@@ -16,20 +16,18 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
-
+///wrap whole experiment in the beginExperiment function
 function beginExperiment(stimStruct) {
     var jsPsych = initJsPsych( {on_finish: function() {
-        jsPsych.data.displayData();
+        // jsPsych.data.displayData();
       }});
-    var stimStruct = stimStruct;
+    var stimStruct = stimStruct; // this is the stimulus structure that is passed in from the main experiment script
 
     
 
 
 
-function sampleWithoutSequentialRepeats(array, size) {
+function sampleWithoutSequentialRepeats(array, size) { //sampler function that ensures that the same item is not repeated in the sequence
     var sample = [];
     var lastItem = null;
     for (var i = 0; i < size; i++) {
@@ -60,13 +58,12 @@ function sampleWithoutSequentialRepeats(array, size) {
 
 
 
-const subject_id = jsPsych.randomization.randomID(10);
-const filename = `${subject_id}.csv`;
+const subject_id = jsPsych.randomization.randomID(10); // generate a random subject ID
+const filename = `${subject_id}.csv`; //seed the filename that will be saved on osf with the subject ID
 
 
     stimCats = Object.keys(stimStruct);
     runDict = {};
-
 
 
 background_dict = {
@@ -77,7 +74,7 @@ background_dict = {
 }
 
 
-
+// create placeholders for the stims in each run
 run1_stims =[];
 run2_stims =[];
 run3_stims =[];
@@ -93,7 +90,7 @@ run12_stims =[];
 
 
 all_stims = [];
-
+ //nested dictionary of nback stims. Keys specify odd vs. even and the keys in the sub dictionaries specify the magnitude of the number
 nback_stims={
 // these are the nback 'conditions'
       'odd':{ 1:[13, 15, 17],
@@ -125,12 +122,13 @@ nback_stims={
 }
 
 
-
     //          Nback Design        //
 nback_factors = {
     'parity': ['odd', 'even'],
     'magnitude': [1,2,3,4,5,6,7,8,9,10,11,12]
 }
+
+////////////// OLD NBACK CODE (EXCISE LATER) ///////////////////////
 
 // nback_full_design = jsPsych.randomization.factorial(nback_factors, 1);
 // nback_seqs = 
@@ -153,6 +151,7 @@ nback_factors = {
 //     splitArray[i] = {'array': splitArray[i]}
 // }
 
+//////////////////////////////////////////////////////////
 
 
 for (var i = 0; i < stimCats.length; i++) { // cycle through faces places then objects
@@ -253,8 +252,6 @@ for(i=0;i<3;i+=1){
   
 
 
-
-
 runDict[0] = run1_stims;
 runDict[1] = run2_stims;
 runDict[2] = run3_stims;
@@ -310,7 +307,7 @@ var scanner_trigger = { //trial for the scanner to begin the run
 var save_data = {
     type: jsPsychPipe,
     action: "save",
-    experiment_id: "QScnbIYfrV2g",
+    experiment_id: "m4HH5huSMfqE",
     filename: filename,
     data_string: ()=>jsPsych.data.get().csv()
   };
