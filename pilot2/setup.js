@@ -352,9 +352,6 @@ var goodbye = {
 // }
 
 
-
-
-
 // var gridTest = {
 //     type: jsPsychGridSelect,
 //     imageList: ['img/urban_day_old_black_woman_1.png','img/rural_day_old_black_woman_1.png',
@@ -377,9 +374,11 @@ timeline.push(preload);
 timeline.push(welcome);
 timeline.push(instructions);
 
+
 num_reps = 1;
 var seqCounter = 0;
 for(var i=0; i<num_reps; i++){
+    timeline.push(scanner_trigger);
 
     //decide what order the backgrounds will be in
     // background_order = jsPsych.randomization.shuffle([0,1,2,3]);
@@ -415,7 +414,7 @@ for(var i=0; i<num_reps; i++){
         timeline.push(thisStim);
         timeline.push(fixation);
         for(var nbackCount=0;nbackCount<6;nbackCount++){
-            var thisTrialNum = nback_seqs[trial][nbackCount] //future will need to pick the right seq out of 12
+            var thisTrialNum = nback_seqs[trial][nbackCount];
             if (nbackCount==0){
                 var firstTrial = true;
 
@@ -469,7 +468,9 @@ for(var i=0; i<num_reps; i++){
     }
     
     timeline.push(gridTest);
+    if (j!=Object.keys(runDict).length-1){ //if not the last run reinstall the scanner trigger
     timeline.push(scanner_trigger);
+    }
     }
 }
 
