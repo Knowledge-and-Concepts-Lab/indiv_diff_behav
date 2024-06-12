@@ -9,7 +9,7 @@ library(tidyverse)
 ```
 
 ```{r}
-df<-read_csv('test1.csv')
+df<-read_csv('claire_pilot.csv')
 
 df_nback<- df%>%filter(nbackTrial==TRUE)
 
