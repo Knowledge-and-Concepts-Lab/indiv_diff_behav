@@ -1,0 +1,90 @@
+var allStimuli = []; // Array to hold all stimuli with their properties
+
+for (var i = 0; i < stimCats.length; i++) {
+    var dim1 = Object.keys(stimStruct[stimCats[i]]);
+    var dim1_keys = Object.keys(stimStruct[stimCats[i]][dim1]);
+
+    for (var j = 0; j < dim1_keys.length; j++) {
+        var dim2 = Object.keys(stimStruct[stimCats[i]][dim1][dim1_keys[j]]);
+        var dim2_keys = Object.keys(stimStruct[stimCats[i]][dim1][dim1_keys[j]][dim2]);
+
+        for (var k = 0; k < dim2_keys.length; k++) {
+            var dim3 = Object.keys(stimStruct[stimCats[i]][dim1][dim1_keys[j]][dim2][dim2_keys[k]]);
+            var dim3_keys = Object.keys(stimStruct[stimCats[i]][dim1][dim1_keys[j]][dim2][dim2_keys[k]][dim3]);
+
+            for (var l = 0; l < dim3_keys.length; l++) {
+                var shuffled_instances = jsPsych.randomization.sampleWithoutReplacement(["1", "2", "3", "4"]);
+
+                allStimuli.push({
+                    stim: `img/urban_day_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${1}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'urban_day'
+                });
+                allStimuli.push({
+                    stim: `img/urban_day_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${2}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'urban_day'
+                });
+
+                allStimuli.push({
+                    stim: `img/urban_eve_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${1}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'urban_eve'
+                });
+                allStimuli.push({
+                    stim: `img/urban_eve_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${2}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'urban_eve'
+                });
+
+                allStimuli.push({
+                    stim: `img/rural_day_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${1}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'rural_day'
+                });
+                allStimuli.push({
+                    stim: `img/rural_day_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${2}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'rural_day'
+                });
+
+                allStimuli.push({
+                    stim: `img/rural_eve_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${1}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'rural_eve'
+                });
+                allStimuli.push({
+                    stim: `img/rural_eve_${dim1_keys[j]}_${dim2_keys[k]}_${dim3_keys[l]}_${2}.png`,
+                    category: stimCats[i],
+                    dim1: dim1_keys[j],
+                    dim2: dim2_keys[k],
+                    dim3: dim3_keys[l],
+                    condition: 'rural_eve'
+                });
+            }
+        }
+    }
+}
+
+console.log(allStimuli); // Print all stimuli with properties

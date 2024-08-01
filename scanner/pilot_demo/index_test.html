@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Neural Fingerprint Pilot Scanner Demo</title>
+
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-call-function@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
+        
+  </head>
+  <body></body>
+    
+  <script>
+      
+
+          
+    var jsPsych = initJsPsych({
+        show_progress_bar:false,
+        max_load_time: 120000
+    });
+      
+
+          /* create timeline */
+    var timeline = [];
+
+      
+    var preload = {
+        type: jsPsychPreload,
+        auto_preload: true,
+        images: ['AnimalsWarmup/birds/barn_owl1.jpg',
+                'AnimalsWarmup/birds/barn_owl2.jpg',
+                'AnimalsWarmup/birds/penguin1.jpg',
+                'AnimalsWarmup/birds/penguin2.jpg',
+                'AnimalsWarmup/birds/cardinal1.jpg',
+                'AnimalsWarmup/birds/cardinal2.jpg',
+                'AnimalsWarmup/birds/robin1.jpg',
+                'AnimalsWarmup/birds/robin2.jpg',                
+                'AnimalsWarmup/mammals/elephant1.jpg',
+                'AnimalsWarmup/mammals/elephant2.jpg',
+                'AnimalsWarmup/mammals/gorilla1.jpg',
+                'AnimalsWarmup/mammals/gorilla2.jpg',
+                'AnimalsWarmup/mammals/horse1.jpg',
+                'AnimalsWarmup/mammals/horse2.jpg'
+                ],
+        show_progress_bar: true,
+        message: "Loading experiment files...",
+        error_message: "Oops! There's a problem loading files. Please refresh the page to try again."
+    }  
+    timeline.push(preload);
+    
+      
+      
+    // go into full screen
+    timeline.push({
+      type: jsPsychFullscreen,
+      fullscreen_mode: true
+    });    
+//         
+//    // define consent trail
+//    var consent = {
+//        type: jsPsychImageButtonResponse,
+//        stimulus: "kc_lab_consent_prolific.png",
+//        choices: ["Consent & Continue"]
+//    };
+//    timeline.push(consent);
+//      
+          
+      
+      
+    var animals = ['AnimalsWarmup/birds/barn_owl1.jpg',
+                'AnimalsWarmup/birds/barn_owl2.jpg',
+                'AnimalsWarmup/birds/penguin1.jpg',
+                'AnimalsWarmup/birds/penguin2.jpg',
+                'AnimalsWarmup/birds/cardinal1.jpg',
+                'AnimalsWarmup/birds/cardinal2.jpg',
+                'AnimalsWarmup/birds/robin1.jpg',
+                'AnimalsWarmup/birds/robin2.jpg',                
+                'AnimalsWarmup/mammals/elephant1.jpg',
+                'AnimalsWarmup/mammals/elephant2.jpg',
+                'AnimalsWarmup/mammals/gorilla1.jpg',
+                'AnimalsWarmup/mammals/gorilla2.jpg',
+                'AnimalsWarmup/mammals/horse1.jpg',
+                'AnimalsWarmup/mammals/horse2.jpg'
+                ];  
+      
+      
+      
+      
+    /* define testing instructions */
+    var instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "The following instructions will go over the structure of a single block.<br> In each block, you will be shown a series of\
+            images one at a time. These images will remain on the screen for a few seconds then disappear.<strong> Your primary job is to study these images as they appear.</strong> At the end of the block you will be asked to make a judgment based on your memory of the images, so study them carefully.<br><br>" +
+            'To help you from getting too bored or sleepy, you will also do a second task in between images.<br>In the second task, you will see a series of numbers one at a time. For each number, your job is to decide whether it is larger or smaller than the preceding number. For, example if the sequence of numbers is 5,1,3,4,6,0, you would respond beginning with the 1: smaller, larger, larger, larger, smaller. On the trackball press the <b>left</b> button to indicate smaller and the <b>right</b> button to indicate larger.<br><p>So on each trial, you will first (a) study an image, then (b) do the number judgment task.</p>'+
+            "At the end of each block of trials, you will be shown a grid of images. Your job is to decide which <b>two images</b> in the grid are most similar to the items you studied. Select the two most similar items by using the trackball and clicking on your choices. Please make sure to select exactly two!",
+        choices: ["Continue"],
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions);  
+      
+      
+    var short_fixation = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<div style="font-size:60px;">+</div>',
+        choices: "NO_KEYS",
+        trial_duration: 500,
+      };
+      timeline.push(long_fixation);
+      
+
+    var long_fixation = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<div style="font-size:60px;">+</div>',
+        choices: "NO_KEYS",
+        trial_duration: 8000,
+      };
+      timeline.push(long_fixation);
+    
+
+    var blank ={
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<div style="font-size:60px;"></div>',
+        choices: "NO_KEYS",
+        trial_duration: 50,
+    }
+
+    var scanner_trigger = { //trial for the scanner to begin the run
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<div style="font-size:60px;">Please wait for next TR to begin!</div>',
+        choices: ['t']
+      };
+    timeline.push(scanner_trigger);
+      
+      
+    var trial_stim = ['AnimalsWarmup/birds/barn_owl1.jpg',
+                    'AnimalsWarmup/birds/penguin1.jpg',
+                    'AnimalsWarmup/birds/cardinal1.jpg',
+                    'AnimalsWarmup/birds/robin1.jpg',
+                    'AnimalsWarmup/mammals/elephant1.jpg',
+                    'AnimalsWarmup/mammals/gorilla1.jpg',
+                    'AnimalsWarmup/mammals/horse1.jpg'];
+                      
+    var test_stim = ['AnimalsWarmup/birds/barn_owl2.jpg',
+                    'AnimalsWarmup/birds/penguin2.jpg',
+                    'AnimalsWarmup/birds/cardinal2.jpg',
+                    'AnimalsWarmup/birds/robin2.jpg', 
+                    'AnimalsWarmup/mammals/elephant2.jpg',
+                    'AnimalsWarmup/mammals/gorilla2.jpg',
+                    'AnimalsWarmup/mammals/horse2.jpg'];
+
+    var trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: jsPsych.randomization.sampleWithoutReplacement(trial_stim, 1),
+        stimulus_height: 500,
+        choices: ['NO_KEYS'],
+        trial_duration: 6000,
+        post_trial_gap: 0
+        };
+    
+    var nback = {
+        
+    }
+
+      
+      
+      
+      
+//
+//
+//    for(var nbackCount=0;nbackCount<6;nbackCount++){
+//        var thisTrialNum = nback_seqs[trial][nbackCount];
+//        if (nbackCount==0){
+//            var firstTrial = true;
+//
+//        }else{
+//            var firstTrial = false;
+//        }
+//        var thisNback = {
+//
+//           type: jsPsychHtmlMouseResponse,
+//           trial_duration: 950,
+//        //    stimulus: function(){return `<div style="font-size:60px;">${thisTrialNum}</div>`},
+//        stimulus: `<div style="font-size:60px;">${thisTrialNum}</div>`,
+//        data: {
+//            nbackTrial: true,
+//            firstTrial: firstTrial,
+//            sequence: seqCounter,
+//            parity:nback_full_design[trial]['parity'],
+//            magnitude:nback_full_design[trial]['magnitude'],
+//
+//          }
+//        }
+//
+//        timeline.push(thisNback);
+//
+
+    
+      
+    jsPsych.run(timeline);
+
+</script>
+</html>
+
+<!--
+
+-->
